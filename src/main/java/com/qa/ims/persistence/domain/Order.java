@@ -2,57 +2,47 @@ package com.qa.ims.persistence.domain;
 
 public class Order {
 
-	private Long id;
-	private String firstName;
-	private String surname;
-
-	public Customer(String firstName, String surname) {
-		this.setFirstName(firstName);
-		this.setSurname(surname);
+	private Long orderId;
+	private Long customerId;
+	
+	public Order (Long customerId) {
+		this.setCustomerId(customerId);
+	}
+	
+	public Order (Long customerId, Long orderId) {
+		this.setCustomerId(customerId);
+		this.setOrderId(orderId);
 	}
 
-	public Customer(Long id, String firstName, String surname) {
-		this.setId(id);
-		this.setFirstName(firstName);
-		this.setSurname(surname);
+	
+
+	public Long getOrderId() {
+		return orderId;
 	}
 
-	public Long getId() {
-		return id;
+	public void setOrderId(Long orderId) {
+		this.orderId = orderId;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public Long getCustomerId() {
+		return customerId;
 	}
 
-	public String getFirstName() {
-		return firstName;
-	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getSurname() {
-		return surname;
-	}
-
-	public void setSurname(String surname) {
-		this.surname = surname;
+	public void setCustomerId(Long customerId) {
+		this.customerId = customerId;
 	}
 
 	@Override
 	public String toString() {
-		return "id:" + id + " first name:" + firstName + " surname:" + surname;
+		return "Customer Id:" + customerId + " Order Id:" + orderId;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((surname == null) ? 0 : surname.hashCode());
+		result = prime * result + ((orderId == null) ? 0 : orderId.hashCode());
+		result = prime * result + ((customerId == null) ? 0 : customerId.hashCode());
 		return result;
 	}
 
@@ -64,21 +54,16 @@ public class Order {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Customer other = (Customer) obj;
-		if (getFirstName() == null) {
-			if (other.getFirstName() != null)
+		Order other = (Order) obj;
+		if (getCustomerId() == null) {
+			if (other.getCustomerId() != null)
 				return false;
-		} else if (!getFirstName().equals(other.getFirstName()))
+		} else if (!getCustomerId().equals(other.getCustomerId()))
 			return false;
-		if (id == null) {
-			if (other.id != null)
+		if (orderId == null) {
+			if (other.orderId!= null)
 				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		if (surname == null) {
-			if (other.surname != null)
-				return false;
-		} else if (!surname.equals(other.surname))
+		} else if (!orderId.equals(other.getOrderId()))
 			return false;
 		return true;
 	}
