@@ -10,11 +10,10 @@ public class Order {
 	}
 	
 	public Order (Long customerId, Long orderId) {
-		this.setCustomerId(customerId);
 		this.setOrderId(orderId);
+		this.setCustomerId(customerId);
+		
 	}
-
-	
 
 	public Long getOrderId() {
 		return orderId;
@@ -41,9 +40,10 @@ public class Order {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((orderId == null) ? 0 : orderId.hashCode());
-		result = prime * result + ((customerId == null) ? 0 : customerId.hashCode());
+		result = prime * result + (( customerId== null) ? 0 : customerId.hashCode());
+		result = prime * result + (( orderId == null) ? 0 : orderId.hashCode());
 		return result;
+		
 	}
 
 	@Override
@@ -55,10 +55,10 @@ public class Order {
 		if (getClass() != obj.getClass())
 			return false;
 		Order other = (Order) obj;
-		if (getCustomerId() == null) {
-			if (other.getCustomerId() != null)
+		if (customerId== null) {
+			if (other.customerId != null)
 				return false;
-		} else if (!getCustomerId().equals(other.getCustomerId()))
+		} else if (!customerId.equals(other.customerId))
 			return false;
 		if (orderId == null) {
 			if (other.orderId!= null)
