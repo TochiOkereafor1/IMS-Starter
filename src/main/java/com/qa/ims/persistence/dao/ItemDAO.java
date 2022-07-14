@@ -94,16 +94,17 @@ public class ItemDAO implements Dao<Item> {
 	}
 
 	@Override
-	public Item update(Item item) {
+	public Item update(Item items) {
 
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				PreparedStatement statement = connection
-						.prepareStatement("UPDATE items SET item_name = ?, item_value = ? WHERE item_id = ?");) {
-			statement.setString(1, item.getItemName());
-			statement.setDouble(2, item.getItemValue());
-			statement.setLong(3, item.getItemId());
+						.prepareStatement("UPDATE items SET item_value =  ?, item_name = ? WHERE item_id = ?");) {
+			statement.setDouble(1, items.getItemValue());
+			statement.setString(2, items.getItemName());
+			statement.setLong(3, items.getItemId());
+			
 			statement.executeUpdate();
-			return read(item.getItemId());
+			return read(items.getItemId());
 		} catch (Exception e) {
 			LOGGER.debug(e);
 			LOGGER.error(e.getMessage());
