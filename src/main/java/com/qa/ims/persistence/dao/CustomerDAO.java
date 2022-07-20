@@ -23,7 +23,9 @@ public class CustomerDAO implements Dao<Customer> {
 		Long id = resultSet.getLong("customer_id");
 		String firstName = resultSet.getString("first_name");
 		String surname = resultSet.getString("last_name");
-		return new Customer(id, firstName, surname);
+
+		return new Customer(id, firstName, surname); // instantiating customer 
+
 	}
 
 	/**
@@ -51,7 +53,11 @@ public class CustomerDAO implements Dao<Customer> {
 	public Customer readLatest() {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();
-				ResultSet resultSet = statement.executeQuery("SELECT * FROM customer_id ORDER BY id DESC LIMIT 1");) {
+
+				ResultSet resultSet = statement.executeQuery("SELECT * FROM customers ORDER BY customer_id DESC LIMIT 1");) {
+
+			
+
 			resultSet.next();
 			return modelFromResultSet(resultSet);
 		} catch (Exception e) {
