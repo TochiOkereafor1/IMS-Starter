@@ -54,8 +54,8 @@ public class Item {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((itemName == null) ? 0 : itemName.hashCode());
-		result = prime * result + ((itemId == null) ? 0 : itemId.hashCode());
+		result = prime * result + ((itemName == null) ? 0 : itemId.hashCode());
+		result = prime * result + ((itemId == null) ? 0 : itemName.hashCode());
 		result = prime * result + ((itemValue == null) ? 0 : itemValue.hashCode());
 		return result;
 	}
@@ -69,15 +69,15 @@ public class Item {
 		if (getClass() != obj.getClass())
 			return false;
 		Item other = (Item) obj;
-		if (getItemName() == null) {
-			if (other.getItemName() != null)
-				return false;
-		} else if (!getItemName().equals(other.getItemName()))
-			return false;
 		if (itemId == null) {
 			if (other.itemId != null)
 				return false;
 		} else if (!itemId.equals(other.itemId))
+			return false;
+		if (itemName == null) {
+			if (other.itemName != null)
+				return false;
+		} else if (!itemName.equals(other.itemName))
 			return false;
 		if (itemValue == null) {
 			if (other.itemValue != null)
