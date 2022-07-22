@@ -6,7 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -25,16 +27,13 @@ public class OrderDAO implements Dao<Order>{
 	@Override
 	public Order modelFromResultSet(ResultSet resultSet) throws SQLException {
 		Long orderId = resultSet.getLong("order_id");
-		int orderQuantity = resultSet.getInt("order_quantity");
 		Double totalOrderPrice = resultSet.getDouble("total_order_price");
-		
 		int customer_id = resultSet.getInt("fk_customer_id");
-		int itemId = resultSet.getInt("item_id");
-		return new Order (orderId, customer_id, orderQuantity, totalOrderPrice, itemId);
+		return new Order (orderId, customer_id,totalOrderPrice);
+		
+		
 	}
 	
-
-
 
 
 	@Override
@@ -92,13 +91,11 @@ public class OrderDAO implements Dao<Order>{
 	public Order create(Order orders) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				PreparedStatement statement = connection
-						.prepareStatement("INSERT INTO orders(fk_customer_id, order_quantity, total_order_price, item_id) VALUES (?, ?, ?, ?)");) {
+						.prepareStatement("INSERT INTO orders(fk_customer_id, total_order_price) VALUES (?, ?)");) {
 			statement.setInt(1, orders.getcustomer_id());
-			statement.setInt(2, orders.getOrderQuantity());
-			statement.setDouble(3, orders.getTotalOrderPrice());
-			statement.setInt(4, orders.getitemId());
+			statement.setDouble(2, orders.getTotalOrderPrice());
 			statement.executeUpdate();
-			return readLatest();
+			addItemToOrder(orders);
 		} catch (Exception e) {
 			LOGGER.debug(e);
 			LOGGER.error(e.getMessage());
@@ -112,10 +109,9 @@ public class OrderDAO implements Dao<Order>{
 	public Order update(Order orders) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				PreparedStatement statement = connection
-						.prepareStatement("UPDATE orders SET order_quantity = ?, total_order_price = ? WHERE order_id = ?");) {
+						.prepareStatement("UPDATE orders SET total_order_price = ? WHERE order_id = ?");) {
 			statement.setDouble(1, orders.getTotalOrderPrice());
-			statement.setInt(2, orders.getOrderQuantity());
-			statement.setLong(3, orders.getOrderId());
+			statement.setLong(2, orders.getOrderId());
 
 
 			statement.executeUpdate();
@@ -141,6 +137,47 @@ public class OrderDAO implements Dao<Order>{
 		}
 		return 0;
 	}
+	
+	public Order addItemToOrder(Order orders) {
+		Order recentOrders=readLatest();
+		Map<Long, Integer> items = new HashMap<Long, Integer>();
+		items=orders.getItems(); 
+		
+		for (Map.Entry<Long, Integer> entry : items.entrySet()) {
+		    Long itemId = entry.getKey();
+		    Integer itemQuantity = entry.getValue();
+		    
+			try (Connection connection = DBUtils.getInstance().getConnection();
+					PreparedStatement statement = connection
+							.prepareStatement("INSERT INTO order_lines(fk_order_id, order_quantity, fk_item_id) VALUES (?, ?, ?)");) {
+				statement.setLong(1, recentOrders.getOrderId());
+				statement.setInt(2, itemQuantity);
+				statement.setLong(3, itemId);
+				statement.executeUpdate();
+			} catch (Exception e) {
+				LOGGER.debug(e);
+				LOGGER.error(e.getMessage());
+			}
+		    
+		    
+		}
+	
+		return null;
+	};
+	
+	public Order deleteItemFromOrder(Long orderId, Long itemId) {
+		try (Connection connection = DBUtils.getInstance().getConnection();
+				PreparedStatement statement = connection
+						.prepareStatement("DELETE FROM order_lines WHERE fk_item_id = ? and fk_order_id = ?");) {
+			statement.setLong(1, itemId);
+			statement.setLong(2, orderId);
+			statement.executeUpdate();
+		} catch (Exception e) {
+			LOGGER.debug(e);
+			LOGGER.error(e.getMessage());
+		}
+		return null;
+	};
 
 	
 }

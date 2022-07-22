@@ -1,5 +1,6 @@
 package com.qa.ims.controller;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -41,14 +42,32 @@ public class OrderController implements CrudController<Order> {
 	public Order create() {
 		LOGGER.info("Please enter customer Id");
 		int customer_id = utils.getInteger();
-		System.out.println(customer_id);
-		LOGGER.info("Please enter your Order Quantity");
-		int orderQuantity = utils.getInteger();
-		LOGGER.info("Please enter a total price");
-		Double totalOrderPrice =utils.getDouble();
-		LOGGER.info("Please enter an Item id");
-		int itemId =utils.getInteger();
-		Order order = orderDAO.create(new Order(customer_id, orderQuantity, totalOrderPrice, itemId)); 
+		LOGGER.info("Please enter an item Id");
+		Long itemId= utils.getLong(); 
+		LOGGER.info("Please enter item quantity");
+		Integer quantity= utils.getInteger(); 
+		HashMap<Long, Integer> items = new HashMap<Long, Integer>();
+		items.put(itemId, quantity); 
+		LOGGER.info("Would you like to add another item? Y/N");
+		String input = utils.getString();
+		Boolean choice = input.equalsIgnoreCase("Y");
+
+		
+		while(choice) {
+			LOGGER.info("Please enter an item Id");
+			itemId= utils.getLong(); 
+			LOGGER.info("Please enter item quantity");
+			quantity= utils.getInteger(); 
+			items.put(itemId, quantity); 
+			LOGGER.info("Would you like to add another item? Y/N");
+			input = utils.getString();
+			choice = input.equalsIgnoreCase("Y");
+		}
+		
+		LOGGER.info("Please enter total order price");
+		Double totalOrderPrice = utils.getDouble();
+		
+		Order order = orderDAO.create(new Order(customer_id, items, totalOrderPrice)); 
 		
 		LOGGER.info("Order created");
 		return order;
@@ -75,36 +94,29 @@ public class OrderController implements CrudController<Order> {
 	
 	@Override
 	public int delete() {
-		LOGGER.info("Please enter the id of the order you would like to delete");
+		LOGGER.info("Please enter the id of the order you would like to operate on");
 		Long orderId = utils.getLong();
-		 
-		int order = orderDAO.delete(orderId);
-		LOGGER.info("order deleted");
-		return order;
-	}
-	
-	public Order addToOrder() {
-		LOGGER.info("Please enter customer Id");
-		int customer_id = utils.getInteger();
-		System.out.println(customer_id);
-		LOGGER.info("Please enter an Item id");
-		int itemId =utils.getInteger();
-		LOGGER.info("Please enter your Order Quantity");
-		LOGGER.info("Order created");
-		boolean choice;
+		LOGGER.info("Would you like to delete? ITEM or ORDER");
+		String choice = utils.getString();
+
+		if (choice.equalsIgnoreCase("ITEM")) {
+			LOGGER.info("Please enter the id of the item you would like to delete");
+			Long itemId = utils.getLong(); 
+			orderDAO.deleteItemFromOrder(orderId, itemId); 
+			LOGGER.info("item deleted from order");
+
+		} else if (choice.equalsIgnoreCase("ORDER")) {
+			
+			orderDAO.delete(orderId); 
+			LOGGER.info("order deleted");
+
+		}
 		
-		// do you want to add another item 
-		// y or n
-		// if choice == y 789
-		//if choice ==N 
-		
-		int orderQuantity = utils.getInteger();
-		Order order = orderDAO.create(new Order(customer_id, orderQuantity, itemId)); 
-		
-		LOGGER.info("Order created");
-		return order;
+         return 0;
 	}
 
+
+	
 	
 
 }
