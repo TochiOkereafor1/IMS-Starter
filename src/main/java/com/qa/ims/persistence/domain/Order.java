@@ -1,42 +1,53 @@
 package com.qa.ims.persistence.domain;
 
+import java.util.HashMap;
+import java.util.Objects;
+
 public class Order {
 
 	private Long orderId;
 	private int customer_id;
-	private int orderQuantity;
 	private Double totalOrderPrice;
-	private int itemId; 
+	private HashMap<Long, Integer> items = new HashMap<Long, Integer>();
 
 	
 
-
-	public Order(Long orderId, int customer_id, int orderQuantity, Double totalOrderPrice, int itemId) {
+	public Order(Long orderId, int customer_id, Double totalOrderPrice, HashMap<Long, Integer> items) {
 		this.orderId = orderId;
 		this.customer_id = customer_id;
-		this.orderQuantity = orderQuantity;
 		this.totalOrderPrice = totalOrderPrice;
-		this.itemId = itemId;
+		this.items = items;
 	}
 	
-	public Order(int customer_id , int orderQuantity, Double totalOrderPrice, int itemId) {
+	public Order(int customer_id, Double totalOrderPrice, HashMap<Long, Integer> items) {
 		this.customer_id = customer_id;
-		this.orderQuantity = orderQuantity;
 		this.totalOrderPrice = totalOrderPrice;
-		this.itemId = itemId;
+		this.items = items;
 	}
 	
-	public Order(Long orderId , int orderQuantity, Double totalOrderPrice) {
+	public Order(Long orderId , Double totalOrderPrice) {
 		this.orderId = orderId;
-		this.orderQuantity = orderQuantity;
 		this.totalOrderPrice = totalOrderPrice;
 	}
 	
-	// orderId, orderQuantity, totalOrderPrice
+	public Order(int customer_id ,HashMap<Long, Integer> items, Double totalOrderPrice) {
+		this.customer_id = customer_id;
+		this.items = items;
+		this.totalOrderPrice = totalOrderPrice;
+	}
+	
 	
 
+	public Order(Long orderId, int customer_id, Double totalOrderPrice) {
+		this.orderId = orderId;
+		this.customer_id = customer_id;
+		this.totalOrderPrice = totalOrderPrice;
+	}
 
-	
+	public Order(int customer_id, HashMap<Long, Integer> items) {
+		this.customer_id = customer_id;
+		this.items = items;
+	}
 
 	public Long getOrderId() {
 		return orderId;
@@ -54,14 +65,7 @@ public class Order {
 		this.customer_id = customer_id;
 	}
 
-	public int getOrderQuantity() {
-		return orderQuantity;
-	}
-
-	public void setOrderQuantity(int orderQuantity) {
-		this.orderQuantity = orderQuantity;
-	}
-
+	
 	public Double getTotalOrderPrice() {
 		return totalOrderPrice;
 	}
@@ -70,29 +74,22 @@ public class Order {
 		this.totalOrderPrice = totalOrderPrice;
 	}
 
-	public  int getitemId() {
-		return itemId;
+	public HashMap<Long, Integer> getItems() {
+		return items;
 	}
 
-	public void setitemId(int itemId) {
-		this.itemId = itemId;
+	public void setItems(HashMap<Long, Integer> items) {
+		this.items = items;
 	}
 	
 	@Override
 	public String toString() {
-		return "order id:" + orderId + "customer_id:" + customer_id + "order Quantity:" + orderQuantity + "totalOrderPrice:" + totalOrderPrice + "item Ordered" + itemId;
+		return "order id:" + orderId + "customer_id:" + customer_id  + "totalOrderPrice:" + totalOrderPrice;
 	}
 		@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((orderId == null) ? 0 : orderId.hashCode());
-		result = prime * result + customer_id;
-		result = prime * result + orderQuantity;
-		result = prime * result + ((totalOrderPrice == null) ? 0 : totalOrderPrice.hashCode());
-		result = prime * result + itemId;
-		return result;
-	}
+		public int hashCode() {
+			return Objects.hash(customer_id, items, orderId, totalOrderPrice);
+		}
 
 	@Override
 	public boolean equals(Object obj) {
@@ -103,30 +100,8 @@ public class Order {
 		if (getClass() != obj.getClass())
 			return false;
 		Order other = (Order) obj;
-		if (orderId == null) {
-			if (other.orderId != null)
-				return false;
-		} else if (!orderId.equals(other.orderId))
-			return false;
-//		if (customer == null) {
-//			if (other.customer != null)
-//				return false;
-//		} else if (!customer.equals(other.customer))
-//			return false;
-		if (orderQuantity != other.orderQuantity) 
-				return false;
-		if (totalOrderPrice == null) {
-			if (other.totalOrderPrice != null)
-				return false;
-		} else if (!totalOrderPrice.equals(other.totalOrderPrice))
-			return false;
-//		if (itemId != !itemId.equals(other.itemId) {
-//			if (other.itemId != null)
-//				return false;
-//		} else if (!itemId.equals(other.itemId))
-//			return false;
-		return true;
-
+		return customer_id == other.customer_id && Objects.equals(items, other.items)
+				&& Objects.equals(orderId, other.orderId) && Objects.equals(totalOrderPrice, other.totalOrderPrice);
 	}
 	
 	
