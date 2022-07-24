@@ -1,13 +1,10 @@
 package com.qa.ims.persistence.dao;
 
-import static org.junit.jupiter.api.Assertions.assertNull;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.qa.ims.persistence.domain.Item;
