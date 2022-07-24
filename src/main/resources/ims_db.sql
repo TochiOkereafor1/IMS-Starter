@@ -12,6 +12,7 @@ PRIMARY KEY (customer_id)
 CREATE TABLE IF NOT EXISTS orders (
 order_id INT(10) NOT NULL AUTO_INCREMENT,
 customer_id INT (12) NOT NULL,
+total_order_price DOUBLE (8,5),
 PRIMARY KEY (order_id),
 FOREIGN KEY (customer_id) REFERENCES customers (customer_id)
 );
@@ -21,6 +22,13 @@ product_id INT(10) NOT NULL AUTO_INCREMENT,
 product_name VARCHAR (30) NOT NULL,
 product_price DOUBLE (8,5) NOT NULL,
 PRIMARY KEY (product_id)
+);
+
+CREATE TABLE IF NOT EXISTS items(
+item_id INT(10) NOT NULL AUTO_INCREMENT,
+item_name VARCHAR (30) NOT NULL,
+item_value DOUBLE (8,5) NOT NULL,
+PRIMARY KEY (item_id)
 );
 
 CREATE TABLE IF NOT EXISTS order_line(
