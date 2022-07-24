@@ -20,6 +20,10 @@ public class Item {
 
 
 
+	public Item() {
+		
+	}
+
 	public Long getItemId() {
 		return itemId;
 	}
