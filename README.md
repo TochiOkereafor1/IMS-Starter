@@ -1,68 +1,50 @@
-Coverage: 34%
-# Project Title
+Coverage: 57%
+# Inventory Management System (IMS)
 
-One Paragraph of project description goes here
+an inventory management system that a user can interact with via the Command Line Interface, it can be used to manage Orders in a system and also allow the User to Create, Update and Delete Customers, Items and orders.
+
+##Kanban Board
+
+
+User stories: https://trello.com/b/KOrmhbJ2/user-stories
+
+
+Acceptance criteria: https://trello.com/b/kuEhMDNk/acceptance-criteria
+
+
+Moscow Prioritisation: https://trello.com/b/1HRDOVpJ/moscow
+
 
 ## Getting Started
-
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+you will be presented with a few options along with a message "What entities would you  like to use" from the option presented, you can select which you would like to interact with by typing the entity name in Capitals.
+Once you have interacted with the entity of your choice, you will then be presented with CRUD options based on that choice.
 
 ### Prerequisites
 
-What things you need to install the software and how to install them
+Java 16 or later 
 
-```
-Give examples
-```
+MySQL Server Version Mysql Server 5.7
+
+A Java IDE: 
+Intellij : https://www.jetbrains.com/idea/download/
+
+
+Eclipse : https://www.eclipse.org/downloads/download.php?file=/oomph/epp/2022-06/R/eclipse-inst-jre-win64.exe
+
 
 ### Installing
 
-A step by step series of examples that tell you how to get a development env running
+Clone the project, then create a folder in your local desktop and save the project in the folder you have just created. 
+To access the project simply open which ever IDE you are using and the go up to file and select open project folder and select the folder where your cloned project is stored. 
 
-Say what the step will be
-
-```
-Give the example
-```
-
-And repeat
-
-```
-until finished
-```
-
-End with an example of getting some data out of the system or using it for a little demo
 
 ## Running the tests
-
-Explain how to run the automated tests for this system. Break down into which tests and what they do
+To run tests, first have the IMS folder open in your IDE, Locate the IMS-Starter project, right click and select run Coverage as Junit test.
 
 ### Unit Tests 
 
-Explain what these tests test, why and how to run them
+The unit tests are isolating the Methods, constructors, getters/setters in my seperate classes to check how and if they function as a singular entity.  
 
-```
-Give an example
-```
-
-### Integration Tests 
-Explain what these tests test, why and how to run them
-
-```
-Give an example
-```
-
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-## Deployment
-
-Add additional notes about how to deploy this on a live system
 
 ## Built With
 
@@ -84,6 +66,6 @@ This project is licensed under the MIT license - see the [LICENSE.md](LICENSE.md
 
 ## Acknowledgments
 
-* Hat tip to anyone whose code was used
-* Inspiration
-* etc
+* Thanks to Edward Reynolds for the help with Git
+* Thanks to Jordan Harrison for the lessons 
+
